@@ -8,30 +8,36 @@ def pick_random(event):
     return event[choice]
 
 def random_enemy_attack(enemy_name):
-    lion = ['light attack', 'heavy attack', 'special attack']
-    hydra = ['light attack', 'heavy attack', 'special attack']
-    cerberus = ['light attack', 'heavy attack', 'special attack']
+    lion = ['Swipe', 'Bite', 'Pounce']
+    hydra = ['Bite', 'Slam', 'Poison']
+    cerberus = ['Bite', 'Scratch', 'Firebreath']
 
-    if enemy_name == 'lion':
+    if enemy_name == 'Nemean Lion':
         random_attack = pick_random(lion)
         return random_attack
 
-    elif enemy_name == 'hydra':
+    elif enemy_name == 'Learnaean Hydra':
         random_attack = pick_random(hydra)
         return random_attack
 
-    elif enemy_name == 'cerberus':
+    elif enemy_name == 'Cerberus':
         random_attack = pick_random(cerberus)
         return random_attack
 
-def player_attack(): #! add loop to prevent other input
+def player_attack():
 
-    print('1. light attack')
+    print('\n1. light attack')
     print('2. heavy attack')
     print('3. special attack')
     print('4. defend')
 
-    player_choice = (int(input('Choose an attack! (Enter 1-4) ')))
+    player_choice = 0
+
+    while player_choice < 1 or player_choice > 4:
+        player_choice = (int(input('Choose an attack! (Enter 1-4) ')))
+       
+        if player_choice < 1 or player_choice > 4:
+            print('Please use number keys 1-4 to make your selection')
 
     if player_choice == 1:
         player_attack = 'light attack'
@@ -48,8 +54,9 @@ def player_attack(): #! add loop to prevent other input
     elif player_choice == 4:
         player_attack = 'defend'
         return player_attack
+        
 
-def attack(enemy_name): #TODO add input to provide readability, adjust stat values
+def attack(enemy_name):
 
     hercules = {
     'health' : 100,
@@ -62,38 +69,35 @@ def attack(enemy_name): #TODO add input to provide readability, adjust stat valu
 
     lion = {
     'health' : 250,
-    'attack power' : 7,
-    'light attack' : 35,
-    'heavy attack' : 70,
-    'special attack' : 90,
-    'number of attacks' : 3
+    'attack power' : 5,
+    'Swipe' : 5,
+    'Bite' : 10,
+    'Pounce' : 15
     }
 
     hydra = {
-    'health' : 500,
-    'attack power' : 2,
-    'light attack' : 10,
-    'heavy attack' : 20,
-    'special attack' : 40,
-    'number of attacks' : 3
+    'health' : 300,
+    'attack power' : 7,
+    'Bite' : 5,
+    'Slam' : 10,
+    'Poison' : 20
     }
 
     cerberus = {
-    'health' : 500,
+    'health' : 350,
     'attack power' : 10,
-    'light attack' : 50,
-    'heavy attack' : 100,
-    'special attack' : 200,
-    'number of attacks' : 3
+    'Bite' : 15,
+    'Scratch' : 10,
+    'Firebreath' : 25
     }
     
-    if enemy_name == 'lion':
+    if enemy_name == 'Nemean Lion':
         enemy_stats = lion
 
-    elif enemy_name == 'hydra':
+    elif enemy_name == 'Learnaean Hydra':
         enemy_stats = hydra
 
-    elif enemy_name == 'cerberus':
+    elif enemy_name == 'Cerberus':
         enemy_stats = cerberus
 
     enemy_health = enemy_stats['health']
@@ -104,17 +108,28 @@ def attack(enemy_name): #TODO add input to provide readability, adjust stat valu
         out_damage = hercules[player_attack()]
         enemy_health -= out_damage
 
+
+
         if enemy_health <= 0:
-            print('Victory!')
+            print('\nVictory!')
             break
 
-        print(f'you attack, enemy health = {enemy_health}')
+        print(f'\nyou attack, enemy health = {enemy_health}')
+        input('Press enter to continue:')
 
-        in_damage = enemy_stats[random_enemy_attack(enemy_name)]
+        random_attack = random_enemy_attack(enemy_name)
+        in_damage = enemy_stats[random_attack]
+        
+        if out_damage == 0: #if defend is used
+            in_damage = 0
+        
         player_health -= in_damage
 
         if player_health <= 0:
-            print('You died!')
+            print('\nYou died!')
             break
 
-        print(f'the enemy attacks, you have {player_health} health remaining')
+        print(f'\n{enemy_name} used {random_attack}, you have {player_health} health remaining')
+        input('Press enter to continue:')
+
+attack('Nemean Lion')
